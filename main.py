@@ -92,7 +92,7 @@ def un(m,o):
 def sr(d,a,b,pl):
  global ND,S,BM
  ND+=1
- if ND>25e3:raise A()
+ if ND>5e4:raise A()
  if d<=0:
   s=EV*S
   if s>=b:return b
