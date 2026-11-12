@@ -123,7 +123,7 @@ def ps(x):
 def ch(L):
  global ND,S,BM
  BM=0
- for d in range(1,6):
+ for d in range(1,7):
   ND=0
   try:sr(d,-10**6,10**6,0)
   except A:break
