@@ -1,5 +1,5 @@
 import json,os,urllib.request as u
-U=os.environ["MAKEFUN_ENV_URL"]
+U=os.getenv("MAKEFUN_ENV_URL")
 V=(0,100,320,330,500,900,0)
 J=[33,31,18,14,-14,-18,-31,-33];D=[15,17,-15,-17];R=[1,-1,16,-16]
 RR={0:2,7:1,112:8,119:4}
@@ -9,12 +9,11 @@ class A(Exception):pass
 def nm(s):return "abcdefgh"[s&7]+str((s>>4)+1)
 def pv(p,s):
  a=abs(p);v=V[a];r=s>>4;f=s&7;c=6-abs(f-3)-abs(r-3)
- if a==1:v+=r*10 if p>0 else (7-r)*10
+ if a==1:v+=(r if p>0 else 7-r)*10
  elif a in (2,3,5):v+=c*(6,4,0,3)[a-2]
  return v if p>0 else -v
-def so(ms):ms.sort(key=lambda m:-V[abs(Bd[m>>7&127])]);return ms
 def at(s,w):
- for ds,pt in (((-15,-17) if w else (15,17),1),(J,2),(K,6)):
+ for ds,pt in ((D[2:]if w else D[:2],1),(J,2),(K,6)):
   for d in ds:
    q=s+d
    if not q&136 and Bd[q]==(pt if w else -pt):return 1
@@ -30,10 +29,7 @@ def at(s,w):
  return 0
 def gn(cp):
  ms=[]
- def ad(f,q,r):
-  if (r==6 if S>0 else r==1):
-   for z in (5,2):ms.append(f|(q<<7)|(z<<14))
-  else:ms.append(f|(q<<7))
+ def ad(f,q,r):ms.extend([f|(q<<7)|(z<<14) for z in (5,2)]if r==(1,6)[S>0]else[f|(q<<7)])
  for f in range(128):
   if f&136:continue
   p=Bd[f]
@@ -43,7 +39,7 @@ def gn(cp):
    d=16*S;q=f+d;r=f>>4
    if not Bd[q]:
     ad(f,q,r)
-    if r==(1 if S>0 else 6) and not Bd[q+d]:ms.append(f|((f+2*d)<<7))
+    if r==(6,1)[S>0] and not Bd[q+d]:ms.append(f|((f+2*d)<<7))
    for dd in (d-1,d+1):
     q=f+dd
     if not q&136 and (Bd[q]*S<0 or q==E):ad(f,q,r)
@@ -93,11 +89,12 @@ def sr(d,a,b,pl):
  global ND,S,BM
  ND+=1
  if ND>5e4:raise A()
- if d<=0:
-  s=EV*S
+ k=d<=0 and at(KW if S>0 else KB,S<0)
+ if d<=0 and not k:
+  s=EV*S+10
   if s>=b:return b
   if s>a:a=s
- ms=so(gn(d<=0))
+ ms=gn(d<=0 and not k);ms.sort(key=lambda m:-V[abs(Bd[m>>7&127])])
  bs=-10**6;nl=0;bm=0
  for m in ms:
   o=mk(m);S=-S
@@ -106,7 +103,7 @@ def sr(d,a,b,pl):
   if v>bs:bs=v;bm=m
   a=max(a,v)
   if a>=b:break
- if not nl:return (-99999+pl if at(KW if S>0 else KB,S<0) else 0) if d>0 else a
+ if not nl:return (-99999+pl if at(KW if S>0 else KB,S<0) else 0) if d>0 or k else a
  if pl==0:BM=bm
  return bs if d>0 else max(a,bs)
 def ps(x):
