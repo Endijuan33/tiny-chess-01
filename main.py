@@ -4,7 +4,7 @@ V=(0,100,320,330,500,900,0)
 J=[33,31,18,14,-14,-18,-31,-33];D=[15,17,-15,-17];R=[1,-1,16,-16]
 RR={0:2,7:1,112:8,119:4}
 K=R+D
-Bd=[0]*128;S=1;C=E=EV=KW=KB=ND=0
+Bd=[0]*128;S=1;C=E=EV=KW=KB=ND=0;KL=[0]*128
 class A(Exception):pass
 def nm(s):return "abcdefgh"[s&7]+str((s>>4)+1)
 def pv(p,s):
@@ -89,12 +89,11 @@ def sr(d,a,b,pl):
  global ND,S,BM
  ND+=1
  if ND>5e4:raise A()
- k=d<=0 and at(KW if S>0 else KB,S<0)
- if d<=0 and not k:
+ if d<=0:
   s=EV*S
   if s>=b:return b
   if s>a:a=s
- ms=gn(d<=0 and not k);ms.sort(key=lambda m:-V[abs(Bd[m>>7&127])])
+ ms=gn(d<=0);ms.sort(key=lambda m:(m!=KL[pl] and not Bd[m>>7&127],-V[abs(Bd[m>>7&127])]))
  bs=-10**6;nl=0;bm=0
  for m in ms:
   o=mk(m);S=-S
@@ -102,8 +101,8 @@ def sr(d,a,b,pl):
   nl+=1;v=-sr(d-1,-b,-a,pl+1);S=-S;un(m,o)
   if v>bs:bs=v;bm=m
   a=max(a,v)
-  if a>=b:break
- if not nl:return (-99999+pl if at(KW if S>0 else KB,S<0) else 0) if d>0 or k else a
+  if a>=b:KL[pl]=m;break
+ if not nl:return (-99999+pl if at(KW if S>0 else KB,S<0) else 0) if d>0 else a
  if pl==0:BM=bm
  return bs if d>0 else max(a,bs)
 def ps(x):
@@ -133,11 +132,11 @@ def ch(L):
  if BM>>14:z+="qrbn"[5-(BM>>14)]
  return z if z in L else L[0]
 def pt(p,b):
- return json.load(u.urlopen(u.Request(U+p,data=json.dumps(b).encode())))
+ return json.load(u.urlopen(U+p,json.dumps(b).encode()))
 def mn():
  while 1:
   g=pt("/game",{})
   if g["status"]=="done":break
   while g["status"]=="your_move":
    ps(g["fen"]);g=pt("/move",{"game":g["game"],"move":ch(g["legal_moves"])})
-if __name__=="__main__":mn()
+mn()
