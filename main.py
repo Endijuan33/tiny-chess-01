@@ -93,9 +93,7 @@ def sr(d,a,b,pl):
   s=EV*S
   if s>=b:return b
   if s>a:a=s
- ms=gn(d<=0)
- if d<1 and not ms and at((KW,KB)[S<0],S<0):ms=gn(0)
- ms.sort(key=lambda m:(m!=KL[pl] and not Bd[m>>7&127],-V[abs(Bd[m>>7&127])]))
+ ms=gn(d<=0);ms.sort(key=lambda m:(m!=KL[pl] and not Bd[m>>7&127],-V[abs(Bd[m>>7&127])]))
  bs=-10**6;nl=0;bm=0
  for m in ms:
   o=mk(m);S=-S
@@ -104,7 +102,7 @@ def sr(d,a,b,pl):
   if v>bs:bs=v;bm=m
   a=max(a,v)
   if a>=b:KL[pl]=m;break
- if not nl:return -99999+pl if at((KW,KB)[S<0],S<0) else (0 if d>0 else a)
+ if not nl:return (-99999+pl if at(KW if S>0 else KB,S<0) else 0) if d>0 else a
  if pl==0:BM=bm
  return bs if d>0 else max(a,bs)
 def ps(x):
