@@ -91,7 +91,7 @@ def sr(d,a,b,pl):
  if ND>5e4:raise A()
  k=d<=0 and at(KW if S>0 else KB,S<0)
  if d<=0 and not k:
-  s=EV*S+10
+  s=EV*S
   if s>=b:return b
   if s>a:a=s
  ms=gn(d<=0 and not k);ms.sort(key=lambda m:-V[abs(Bd[m>>7&127])])
